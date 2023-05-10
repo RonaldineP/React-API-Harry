@@ -1,21 +1,35 @@
 const getState = ({ getStore, getActions, setStore }) => {
+	const apiUrl = "https://hp-api.onrender.com/api";
 	return {
 		store: {
-			demo: [
-				{
-					title: "FIRST",
-					background: "white",
-					initial: "white"
-				},
-				{
-					title: "SECOND",
-					background: "white",
-					initial: "white"
-				}
-			]
+			CharacterData: [],
+			favorites: [],
+			SpellData: [],
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
+			addFavorites: (name) => {
+				const store = getStore();
+				setStore({ favorites: [...store.favorites, name] });
+				console.log(store.favorites);
+			},
+
+			addCharacters: () => {
+				fetch(apiUrl+"/characters")
+					.then((response) => response.json())
+					.then (data =>setStore({CharacterData:data}))
+					.catch((error) => console.log(error))
+				
+			},
+			addSpells: () => {
+				fetch(apiUrl+"/spells")
+					.then((response) => response.json())
+					.then (data =>setStore({SpellData:data}))
+					.catch((error) => console.log(error))
+				
+			},
+
+
 			exampleFunction: () => {
 				getActions().changeColor(0, "green");
 			},
